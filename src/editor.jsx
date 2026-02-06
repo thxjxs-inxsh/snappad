@@ -5,6 +5,7 @@ import logo from "./assets/SnapPad.png";
 import settings from "./assets/settings.png";
 
 function Editor({ darkMode, toggleMode }) {
+  const API_BASE = import.meta.env.VITE_API_BASE_URL;
   const { id } = useParams(); // notebookId from URL
 
   const [pages, setPages] = useState([""]);
@@ -30,7 +31,7 @@ function Editor({ darkMode, toggleMode }) {
 
   // 📥 Load notebook
   useEffect(() => {
-    authFetch(`http://172.16.61.79:8080/api/notebooks/${id}`)
+    authFetch(`${API_BASE}/api/notebooks/${id}`)
       .then(res => res.json())
       .then(data => {
         setTitle(data.title);
@@ -50,7 +51,7 @@ function Editor({ darkMode, toggleMode }) {
     saveTimeout.current = setTimeout(async () => {
       try {
         await authFetch(
-          `http://172.16.61.79:8080/api/notebooks/${id}`,
+          `${API_BASE}/api/notebooks/${id}`,
           {
             method: "PUT",
             body: JSON.stringify({

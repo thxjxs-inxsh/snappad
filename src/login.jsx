@@ -4,6 +4,7 @@ import "./login.css";
 import logo from "./assets/SnapPad.png";
 
 function Login() {
+  const API_BASE = import.meta.env.VITE_API_BASE_URL;
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
@@ -12,7 +13,7 @@ function Login() {
     e.preventDefault();
 
     try {
-      const res = await fetch("http://172.16.61.79:8080/api/auth/login", {
+      const res = await fetch("${API_BASE}/api/auth/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -49,6 +50,7 @@ function Login() {
 
         <form onSubmit={handleLogin}>
           <input
+            id="user"
             type="text"
             placeholder="Username"
             value={username}
@@ -57,12 +59,14 @@ function Login() {
           />
 
           <input
+            id="pass"
             type="password"
             placeholder="Password"
             value={password}
             onChange={e => setPassword(e.target.value)}
             required
           />
+
 
           <button type="submit">Login</button>
         </form>

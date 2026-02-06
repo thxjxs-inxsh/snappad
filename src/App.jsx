@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Login from "./login.jsx";
 import Signup from "./signup.jsx";
@@ -12,53 +12,41 @@ function App() {
     localStorage.getItem("darkMode") === "true"
   );
 
-  const toggleMode = () => {
-    setDarkMode(prev => !prev);
-  };
+  const toggleMode = () => setDarkMode(prev => !prev);
 
   useEffect(() => {
-    if (darkMode) {
-      document.body.classList.add("dark");
-    } else {
-      document.body.classList.remove("dark");
-    }
-
+    document.body.classList.toggle("dark", darkMode);
     localStorage.setItem("darkMode", darkMode);
   }, [darkMode]);
 
   return (
-    <BrowserRouter>
-      <Routes>
-        {/* 🌐 PUBLIC ROUTES */}
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
+    <Routes>
+      {/* 🌐 DEFAULT */}
+      <Route path="/" element={<Navigate to="/login" replace />} />
 
-        {/* 🔒 PROTECTED ROUTES */}
-        <Route
-          path="/dashboard"
-          element={
-            <ProtectedRoute>
-              <Dashboard
-                darkMode={darkMode}
-                toggleMode={toggleMode}
-              />
-            </ProtectedRoute>
-          }
-        />
+      {/* 🌐 PUBLIC ROUTES */}
+      <Route path="/login" element={<Login />} />
+      <Route path="/signup" element={<Signup />} />
 
-        <Route
-          path="/editor/:id"
-          element={
-            <ProtectedRoute>
-              <Editor
-                darkMode={darkMode}
-                toggleMode={toggleMode}
-              />
-            </ProtectedRoute>
-          }
-        />
-      </Routes>
-    </BrowserRouter>
+      {/* 🔒 PROTECTED ROUTES */}
+      <Route
+        path="/dashboard"
+        element={
+          <ProtectedRoute>
+            <Dashboard darkMode={darkMode} toggleMode={toggleMode} />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/editor/:id"
+        element={
+          <ProtectedRoute>
+            <Editor darkMode={darkMode} toggleMode={toggleMode} />
+          </ProtectedRoute>
+        }
+      />
+    </Routes>
   );
 }
 
