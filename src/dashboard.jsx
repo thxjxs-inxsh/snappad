@@ -31,7 +31,7 @@ function Dashboard({ darkMode, toggleMode }) {
 
   // 📥 Load notebooks
   useEffect(() => {
-    authFetch("${API_BASE}/api/notebooks")
+    authFetch(`${API_BASE}/api/notebooks`)
       .then(res => res.json())
       .then(data => setNotes(data))
       .catch(() => {
@@ -46,7 +46,7 @@ function Dashboard({ darkMode, toggleMode }) {
 
     try {
       const res = await authFetch(
-        "${API_BASE}/api/notebooks",
+        `${API_BASE}/api/notebooks`,
         {
           method: "POST",
           body: JSON.stringify({ title })
@@ -87,6 +87,12 @@ function Dashboard({ darkMode, toggleMode }) {
     }
   };
 
+  const logout = async () => {
+    localStorage.clear();
+    navigate('/login', { replace: true });
+    alert("Logged out successfully!");
+  }
+
   return (
     <div id="dashboard-page">
       <img src={logo} id="logo" alt="SnapPad Logo" />
@@ -105,7 +111,7 @@ function Dashboard({ darkMode, toggleMode }) {
             <button id="mode" onClick={toggleMode}>
               {darkMode ? "Dark Mode" : "Light Mode"}
             </button>
-            <button id="logout">Log Out</button>
+            <button id="logout" onClick={logout}>Log Out</button>
           </div>
         </div>
       )}

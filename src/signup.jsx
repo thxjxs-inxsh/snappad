@@ -20,7 +20,7 @@ function Signup() {
     }
 
     try {
-      const res = await fetch("${API_BASE}/api/users/register", {
+      const res = await fetch(`${API_BASE}/api/users/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
