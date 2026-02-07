@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import "./editor.css";
 import logo from "./assets/SnapPad.png";
 import settings from "./assets/settings.png";
@@ -7,7 +7,7 @@ import settings from "./assets/settings.png";
 function Editor({ darkMode, toggleMode }) {
   const API_BASE = import.meta.env.VITE_API_BASE_URL;
   const { id } = useParams(); // notebookId from URL
-
+  const navigate = useNavigate();
   const [pages, setPages] = useState([""]);
   const [title, setTitle] = useState("Untitled");
   const [settingsOpen, setSettingsOpen] = useState(false);
@@ -127,6 +127,12 @@ function Editor({ darkMode, toggleMode }) {
     triggerAutosave();
   };
 
+  const logout = async () => {
+    localStorage.clear();
+    navigate('/login', { replace: true });
+    alert("Logged out successfully!");
+  }
+
   return (
     <>
       <img src={logo} id="logo" alt="SnapPad Logo" />
@@ -156,7 +162,7 @@ function Editor({ darkMode, toggleMode }) {
             <button id="mode" onClick={toggleMode}>
               {darkMode ? "Dark Mode" : "Light Mode"}
             </button>
-            <button id="logout">Log Out</button>
+            <button id="logout" onClick={logout}>Log Out</button>
           </div>
         </div>
       )}
