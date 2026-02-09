@@ -96,30 +96,69 @@ function Editor({ darkMode, toggleMode }) {
   };
 
   // ⌫ Backspace merge pages
-  const handleKeyDown = (e, index) => {
-    if (
-      e.key === "Backspace" &&
-      index > 0 &&
-      e.target.selectionStart === 0
-    ) {
-      e.preventDefault();
+const TAB_SIZE = 4;
 
-      setPages(prev => {
-        const updated = [...prev];
-        updated[index - 1] += updated[index];
-        updated.splice(index, 1);
-        return updated;
-      });
+const handleKeyDown = (e, index) => {
+  const textarea = pageRefs.current[index];
 
-      setTimeout(() => {
-        const prevPage = pageRefs.current[index - 1];
-        prevPage.focus();
-        prevPage.selectionStart = prevPage.selectionEnd = prevPage.value.length;
-      }, 0);
+  /* ---------- TAB INDENT ---------- */
+  if (e.key === "Tab") {
+    e.preventDefault();
 
-      triggerAutosave();
-    }
-  };
+    const start = textarea.selectionStart;
+    const end = textarea.selectionEnd;
+    const indent = " ".repeat(TAB_SIZE);
+
+    setPages(prev => {
+      const updated = [...prev];
+      const value = updated[index];
+
+      updated[index] =
+        value.slice(0, start) +
+        indent +
+        value.slice(end);
+
+      return updated;
+    });
+
+    requestAnimationFrame(() => {
+      textarea.selectionStart =
+        textarea.selectionEnd =
+        start + TAB_SIZE;
+    });
+
+    triggerAutosave();
+    return;
+  }
+
+  /* ---------- BACKSPACE MERGE ---------- */
+  if (
+    e.key === "Backspace" &&
+    index > 0 &&
+    textarea.selectionStart === 0 &&
+    textarea.selectionEnd === 0
+  ) {
+    e.preventDefault();
+
+    setPages(prev => {
+      const updated = [...prev];
+      updated[index - 1] += updated[index];
+      updated.splice(index, 1);
+      return updated;
+    });
+
+    requestAnimationFrame(() => {
+      const prev = pageRefs.current[index - 1];
+      prev.focus();
+      prev.selectionStart =
+        prev.selectionEnd =
+        prev.value.length;
+    });
+
+    triggerAutosave();
+  }
+};
+
 
   // ✏️ Title change
   const handleTitleChange = e => {

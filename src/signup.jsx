@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "./signup.css";
 import logo from "./assets/SnapPad.png";
 
-function Signup() {
+function Signup({ setBuffering }) {
   const API_BASE = import.meta.env.VITE_API_BASE_URL;
   const navigate = useNavigate();
 
@@ -18,6 +18,8 @@ function Signup() {
       alert("Passwords do not match");
       return;
     }
+
+    setBuffering(true); // 🔄 START BUFFER
 
     try {
       const res = await fetch(`${API_BASE}/api/users/register`, {
@@ -34,13 +36,15 @@ function Signup() {
       }
 
       alert("User registered successfully!");
-      
+
       // ✅ redirect to login
       navigate("/login");
 
     } catch (err) {
       alert("Signup failed");
       console.error(err);
+    } finally {
+      setBuffering(false); // 🔄 STOP BUFFER
     }
   };
 

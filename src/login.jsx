@@ -3,14 +3,18 @@ import { useNavigate } from "react-router-dom";
 import "./login.css";
 import logo from "./assets/SnapPad.png";
 
-function Login() {
+function Login({ setBuffering }) {
   const API_BASE = import.meta.env.VITE_API_BASE_URL;
+
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
+
+    setBuffering(true); // 🔄 START BUFFER
 
     try {
       const res = await fetch(`${API_BASE}/api/auth/login`, {
@@ -25,7 +29,7 @@ function Login() {
         throw new Error("Invalid credentials");
       }
 
-      // ✅ BACKEND RETURNS TOKEN HERE
+      // ✅ BACKEND RETURNS TOKEN
       const data = await res.json();
 
       // 🔐 STORE TOKEN
@@ -37,6 +41,8 @@ function Login() {
     } catch (err) {
       alert("Login failed");
       console.error(err);
+    } finally {
+      setBuffering(false); // 🔄 STOP BUFFER
     }
   };
 
@@ -66,7 +72,6 @@ function Login() {
             onChange={e => setPassword(e.target.value)}
             required
           />
-
 
           <button type="submit">Login</button>
         </form>
