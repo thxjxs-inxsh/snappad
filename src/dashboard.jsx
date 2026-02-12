@@ -92,10 +92,27 @@ function Dashboard({ darkMode, toggleMode }) {
     navigate('/login', { replace: true });
     alert("Logged out successfully!");
   }
+  const formatLastEdited = (timestamp) => {
+  if (!timestamp) return "";
+
+  const utcDate = new Date(timestamp + "Z"); // 👈 FORCE UTC
+
+  return utcDate.toLocaleString("en-IN", {
+    timeZone: "Asia/Kolkata",
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: true
+  });
+};
+
+
 
   return (
     <div id="dashboard-page">
-      <img src={logo} id="logo" alt="SnapPad Logo" />
+      <img src={logo} id="logo" alt="SnapPad Logo" onClick={() => navigate("/dashboard")}/>
 
       <img
         src={settings}
@@ -116,7 +133,7 @@ function Dashboard({ darkMode, toggleMode }) {
         </div>
       )}
 
-      <p id="name">SNAPPAD</p>
+      <p id="name">SNAPPAD </p>
 
       <div className="dashboard-head">
         <p id="welcome">Welcome!</p>
@@ -176,18 +193,25 @@ function Dashboard({ darkMode, toggleMode }) {
               />
               <h3>{note.title}</h3>
               <p className="last-edited">
-                Last edited: {note.updatedAt}
-              </p>
+  Last edited · {formatLastEdited(note.updatedAt)}
+</p>
+
+
             </div>
           ))}
         </div>
       </div>
 
-      <div id="footer">
-        <a>About Us</a>
-        <a>Support Us</a>
-        <a>Contact Us</a>
-      </div>
+
+<footer id="footer">
+  <div class="footer-links">
+     <a onClick={() => navigate("/about")}>About Us</a>
+  <a onClick={() => navigate("/support")}>Support Us</a>
+  <a onClick={() => navigate("/contact")}>Contact Us</a>
+  </div>
+  <p id="footer-version">SnapPad v1.0.0 • 2026</p>
+</footer>
+
     </div>
   );
 }

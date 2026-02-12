@@ -80,6 +80,7 @@ body.dark .note-card {
 #logout{
   width:400px;
   margin-top: 1rem;
+  background-color: red;
 }
 
 body.dark .settings-panel{
@@ -222,7 +223,7 @@ body.dark #dashboard::-webkit-scrollbar-thumb{
 
 .note-card {
   background-color: white;
-  width: 200px;
+  width: 220px;
   padding: 15px;
   border-radius: 12px;
   box-shadow: 0px 4px 10px rgba(0,0,0,0.1);
@@ -339,6 +340,16 @@ body.dark  #footer{
   background-color: #2c2e3e;
   border-top:1px solid #f6f6f6;
 }
+#footer-version {
+  font-size: 0.8rem;
+  color: #888;
+  text-align: center;
+  margin: 2rem 0;
+  pointer-events: none;
+}
+body.dark #footer-version {
+  color: #aaa;
+}
 
 body.dark #footer a{
   color:#f6f6f6;
@@ -407,3 +418,160 @@ body.dark #footer a:hover{
     pointer-events: auto;
   }
 }
+/* ===== DARK MODE BASE ===== */
+body.dark {
+  background-color: #1e1f2a;
+  color: #e4e6eb;
+}
+
+body.dark p {
+  color: #cfd2dc;
+}
+
+/* ===== PANELS & OVERLAYS ===== */
+body.dark .settings-panel,
+body.dark .add-panel,
+body.dark .del-panel {
+  background-color: #252736;
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+/* ===== BUTTONS ===== */
+body.dark button {
+  background-color: #2b2e42;
+  color: #e4e6eb;
+  border: 1px solid rgba(255,255,255,0.12);
+}
+
+body.dark button:hover {
+  background-color: #32365a;
+}
+
+/* ===== NOTE CARDS ===== */
+body.dark .note-card {
+  background-color: #252736;
+  color: #e4e6eb;
+  box-shadow: 0px 4px 10px rgba(0,0,0,0.35);
+}
+
+body.dark .note-card h3 {
+  color: #ffffff;
+}
+
+body.dark .note-card .last-edited {
+  color: #9aa0b5;
+}
+
+body.dark .note-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0px 8px 18px rgba(0,0,0,0.45);
+}
+
+/* ===== DELETE BUTTON ===== */
+body.dark .delete-btn {
+  background-color: #2b2e42;
+  border: 1px solid rgba(255,255,255,0.15);
+}
+
+body.dark .delete-btn:hover {
+  background-color: #ff5c5c;
+  border: none;
+}
+
+/* ===== INPUTS ===== */
+body.dark input,
+body.dark textarea {
+  background-color: #1e1f2a;
+  color: #e4e6eb;
+  border: 1px solid rgba(255,255,255,0.15);
+}
+
+body.dark input::placeholder {
+  color: #8f94a8;
+}
+
+/* ===== MODE BUTTON ===== */
+body.dark #mode {
+  background-color: #252736;
+  color: #e4e6eb;
+  border: 1px solid rgba(255,255,255,0.2);
+}
+
+/* ===== FOOTER ===== */
+body.dark #footer {
+  background-color: #1a1b25;
+  border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+body.dark #footer a {
+  color: #cfd2dc;
+}
+
+/* ===== SCROLLBAR ===== */
+body.dark #dashboard::-webkit-scrollbar-track {
+  background: #1a1b25;
+}
+
+body.dark #dashboard::-webkit-scrollbar-thumb {
+  background: #3a3d55;
+}
+
+body.dark #dashboard::-webkit-scrollbar-thumb:hover {
+  background: #4a4f6a;
+}
+
+
+
+
+
+#footer {
+  width: 100%;
+  background-color: #f6f6f6;
+  border-top: 1px solid #2c2e3e;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column; /* stack elements vertically */
+  align-items: center;
+  padding: 0.5rem 0;
+}
+
+#footer .footer-links {
+  display: flex;
+  gap: 3rem;
+  margin-bottom: 0.3rem; /* space between links and version */
+}
+
+#footer a {
+  color: #2c2e3e;
+  text-decoration: none;
+}
+
+#footer a:hover {
+  text-decoration: underline;
+}
+
+#footer-version {
+  font-size: 0.8rem;
+  color: #888;
+  margin: 0;
+  pointer-events: none;
+  text-align: center;
+}
+
+/* Dark mode */
+body.dark #footer {
+  background-color: #1a1b25;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+body.dark #footer a {
+  color: #cfd2dc;
+}
+
+body.dark #footer-version {
+  color: #aaa;
+}
+
+

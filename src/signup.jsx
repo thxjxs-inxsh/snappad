@@ -50,7 +50,7 @@ function Signup({ setBuffering }) {
 
   return (
     <div id="signup-page">
-      <img src={logo} id="logo" alt="SnapPad Logo" />
+      <img src={logo} id="logo" alt="SnapPad Logo" onClick={() => navigate("/dashboard")}/>
       <p id="name">SNAPPAD</p>
 
       <div id="signup">
@@ -60,7 +60,7 @@ function Signup({ setBuffering }) {
           <input
             type="text"
             placeholder="Username"
-            className="button"
+            className="button_signup"
             value={username}
             onChange={e => setUsername(e.target.value)}
             required
@@ -69,7 +69,7 @@ function Signup({ setBuffering }) {
           <input
             type="password"
             placeholder="Password"
-            className="button"
+            className="button_signup"
             value={password}
             onChange={e => setPassword(e.target.value)}
             required
@@ -78,7 +78,7 @@ function Signup({ setBuffering }) {
           <input
             type="password"
             placeholder="Re-enter Password"
-            className="button"
+            className="button_signup"
             value={rePassword}
             onChange={e => setRePassword(e.target.value)}
             required
@@ -87,7 +87,7 @@ function Signup({ setBuffering }) {
           <button type="submit">Sign Up</button>
         </form>
 
-        <p>
+        <p id="signin_message">
           Already Signed Up? <a href="/login">Sign in</a>
         </p>
       </div>

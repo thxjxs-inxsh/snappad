@@ -1,0 +1,35 @@
+#support-page {
+  max-width: 50rem;
+  margin: 7rem auto;
+  padding: 0 1rem;
+  text-align: center;
+}
+
+.support-title {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+}
+
+.support-line {
+  font-size: 1.6rem;
+  font-weight: 500;
+  margin-bottom: 1.5rem;
+}
+
+.support-sub {
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  color: #2c2e3e;
+}
+
+.support-footer {
+  margin-top: 4rem;
+  font-size: 0.9rem;
+  color: #777;
+}
+
+/* ===== DARK MODE ===== */
+body.dark .support-sub,
+body.dark .support-footer {
+  color: #cfd2dc;
+}
