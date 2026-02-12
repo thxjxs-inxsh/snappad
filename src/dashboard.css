@@ -33,8 +33,7 @@ body.dark .note-card {
     left:20px;
     cursor: pointer;
 }
-/* Default desktop: keep it fixed */
-#dashboard-page #name {
+#dashboard-page #name{
   position: fixed;
   top: 20px;
   left: 50%;
@@ -46,22 +45,6 @@ body.dark .note-card {
   pointer-events: none;
   margin-bottom: 3rem;
 }
-
-/* On smaller screens, make it scroll away */
-@media (max-width: 600px) {
-  #dashboard-page #name {
-    position: relative;  /* allows scrolling */
-    top: auto;
-    transform: none;     /* optional: center naturally */
-    margin: 1rem auto;   /* spacing above content */
-    text-align: center;
-  }
-
-  .dashboard-head {
-    margin-top: 1rem; /* adjust spacing if needed */
-  }
-}
-
 #settings{
     width:30px;
     height:30px;
@@ -381,15 +364,21 @@ body.dark #footer a:hover{
   width: 60rem;
   height: 3rem;
   margin-left: 0.5rem;
-  margin-top: 100px; 
+  margin-top: 80px; 
   box-sizing: border-box;
   border-bottom: 1px solid #2c2e3e;
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-bottom: 20px;
-}
 
+}
+#header{
+  background-color: #f6f6f6;
+}
+body.dark #header{
+  background-color: #2c2e3e;
+}
 @media (max-width:1000px){
   #dashboard,.dashboard-head{
     width:35rem;

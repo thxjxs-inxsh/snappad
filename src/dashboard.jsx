@@ -112,6 +112,7 @@ function Dashboard({ darkMode, toggleMode }) {
 
   return (
     <div id="dashboard-page">
+      <div id="header">
       <img src={logo} id="logo" alt="SnapPad Logo" onClick={() => navigate("/dashboard")}/>
 
       <img
@@ -134,7 +135,7 @@ function Dashboard({ darkMode, toggleMode }) {
       )}
 
       <p id="name">SNAPPAD </p>
-
+      </div>
       <div className="dashboard-head">
         <p id="welcome">Welcome!</p>
         <button id="add" onClick={() => setAddOpen(true)}>+</button>
