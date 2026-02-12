@@ -3,32 +3,20 @@ import "./startup.css";
 import logo from "./assets/SnapPad.png";
 
 export default function StartupAnimation({ onFinish }) {
-  const [phase, setPhase] = useState("enter"); 
-  // enter → exit → done
+  const [hide, setHide] = useState(false);
 
   useEffect(() => {
-    // Let full animation play
-    const exitTimer = setTimeout(() => {
-      setPhase("exit");
-    }, 6200); // animation fully visible
+    const fadeTimer = setTimeout(() => setHide(true), 1200);
+    const doneTimer = setTimeout(onFinish, 1500);
 
-    // Unmount AFTER fade-out
-    const doneTimer = setTimeout(() => {
-      onFinish();
-    }, 7400); // exit animation complete
-    console.log("splash mounted");
     return () => {
-      clearTimeout(exitTimer);
+      clearTimeout(fadeTimer);
       clearTimeout(doneTimer);
-      console.log("splash unmounted");
     };
   }, [onFinish]);
 
   return (
-    <div
-      id="startup"
-      className={phase === "exit" ? "hide" : ""}
-    >
+    <div id="startup" className={hide ? "hide" : ""}>
       <div className="startup-center">
         <img src={logo} alt="SnapPad" className="startup-logo" />
 
@@ -38,9 +26,7 @@ export default function StartupAnimation({ onFinish }) {
           ))}
         </h1>
 
-        <p className="startup-tagline">
-          write. think. remember.
-        </p>
+        <p className="startup-tagline">write. think. remember.</p>
       </div>
     </div>
   );

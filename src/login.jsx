@@ -48,7 +48,7 @@ function Login({ setBuffering }) {
 
   return (
     <div id="login-page">
-      <img src={logo} id="logo" alt="SnapPad Logo" />
+      <img src={logo} id="logo" alt="SnapPad Logo" onClick={() => navigate("/dashboard")}/>
       <p id="name">SNAPPAD</p>
 
       <div id="login">
@@ -76,7 +76,7 @@ function Login({ setBuffering }) {
           <button type="submit">Login</button>
         </form>
 
-        <p>
+        <p id="signup_message">
           New user? <a href="/signup">Create account</a>
         </p>
       </div>

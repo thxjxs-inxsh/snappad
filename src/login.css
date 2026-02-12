@@ -32,29 +32,33 @@ body {
   top: 20px;
   left: 50%;
   transform: translateX(-50%);
-  font-size: clamp(1.2rem,1vw, 2rem);
-  letter-spacing: clamp(0.75rem, 1.5vw, 0.6rem);
+  font-size: clamp(1.2rem, 1vw, 2rem);
+  letter-spacing: clamp(0.4rem, 1vw, 0.6rem);
   text-align: center;
   white-space: nowrap;
   pointer-events: none;
 }
+
 /* Login card */
 #login {
+  background: #ffffff;
   width: 100%;
-  min-width: 25rem;
-  min-height: 20rem;
+  max-width: 420px;
   border-radius: 30px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 1.5rem;
+  padding: 1.8rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  animation: fadeUp 0.4s ease;
 }
 
 /* Message */
 #message {
   font-size: 1.1rem;
-  margin-bottom: 1rem;
+  margin-bottom: 1.2rem;
+  color:#2a1f3d;
 }
 
 /* Inputs */
@@ -62,39 +66,47 @@ body {
 #pass {
   background-color: #f6f6f6;
   width: 100%;
-  height: 2.2rem;
+  height: 2.4rem;
   margin-bottom: 1rem;
-  padding-left: 10px;
-  border-radius: 5px;
-  border: 1px solid #34274c;
+  padding-left: 12px;
+  border-radius: 6px;
+  border: 1px solid #d0d0d0;
   color: #2c2e3e;
   font-size: 1rem;
+  transition: border 0.2s ease, box-shadow 0.2s ease;
+}
+
+#user:focus,
+#pass:focus {
+  outline: none;
+  border-color: #34274c;
+  box-shadow: 0 0 0 2px rgba(52, 39, 76, 0.15);
 }
 
 /* Button */
 button {
   background-color: #34274c;
   width: 100%;
-  height: 2.2rem;
-  border-radius: 5px;
-  border: 1px solid #34274c;
+  height: 2.4rem;
+  border-radius: 6px;
+  border: none;
   color: #f6f6f6;
-  transition: 0.2s ease-in;
   font-size: 1rem;
+  margin-top: 0.4rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 button:hover {
-  background-color: #f6f6f6;
-  color: #34274c;
-  transform: scale(1.02);
+  background-color: #2a1f3d;
+  box-shadow: 0 6px 16px rgba(52, 39, 76, 0.3);
 }
-body.dark a{
-  color:#f6f6f6;
-}
+
 /* Text */
 p {
   color: #2c2e3e;
   font-size: 0.85rem;
+  margin-top: 1rem;
 }
 
 a {
@@ -102,7 +114,29 @@ a {
   text-decoration: underline;
 }
 
-/* 📱 Mobile adjustments */
+body.dark a {
+  color: #f6f6f6;
+}
+#signup_message{
+  color:#2a1f3d;
+}
+#signup_message a{
+  color:#2a1f3d;
+  text-decoration: underline;
+}
+/* Animations */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Mobile */
 @media (max-width: 600px) {
   #logo {
     width: 32px;
@@ -110,8 +144,9 @@ a {
     top: 15px;
     left: 15px;
   }
+
   #login {
     border-radius: 20px;
-    min-width: 15rem;
+    padding: 1.4rem;
   }
 }
