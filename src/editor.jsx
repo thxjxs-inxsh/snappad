@@ -1,12 +1,13 @@
 import { useState, useRef, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import "./editor.css";
 import logo from "./assets/SnapPad.png";
 import settings from "./assets/settings.png";
 
 function Editor({ darkMode, toggleMode }) {
+  const API_BASE = import.meta.env.VITE_API_BASE_URL;
   const { id } = useParams(); // notebookId from URL
-
+  const navigate = useNavigate();
   const [pages, setPages] = useState([""]);
   const [title, setTitle] = useState("Untitled");
   const [settingsOpen, setSettingsOpen] = useState(false);
@@ -30,7 +31,7 @@ function Editor({ darkMode, toggleMode }) {
 
   // 📥 Load notebook
   useEffect(() => {
-    authFetch(`http://172.16.61.79:8080/api/notebooks/${id}`)
+    authFetch(`${API_BASE}/api/notebooks/${id}`)
       .then(res => res.json())
       .then(data => {
         setTitle(data.title);
@@ -50,7 +51,7 @@ function Editor({ darkMode, toggleMode }) {
     saveTimeout.current = setTimeout(async () => {
       try {
         await authFetch(
-          `http://172.16.61.79:8080/api/notebooks/${id}`,
+          `${API_BASE}/api/notebooks/${id}`,
           {
             method: "PUT",
             body: JSON.stringify({
@@ -95,36 +96,81 @@ function Editor({ darkMode, toggleMode }) {
   };
 
   // ⌫ Backspace merge pages
-  const handleKeyDown = (e, index) => {
-    if (
-      e.key === "Backspace" &&
-      index > 0 &&
-      e.target.selectionStart === 0
-    ) {
-      e.preventDefault();
+const TAB_SIZE = 4;
 
-      setPages(prev => {
-        const updated = [...prev];
-        updated[index - 1] += updated[index];
-        updated.splice(index, 1);
-        return updated;
-      });
+const handleKeyDown = (e, index) => {
+  const textarea = pageRefs.current[index];
 
-      setTimeout(() => {
-        const prevPage = pageRefs.current[index - 1];
-        prevPage.focus();
-        prevPage.selectionStart = prevPage.selectionEnd = prevPage.value.length;
-      }, 0);
+  /* ---------- TAB INDENT ---------- */
+  if (e.key === "Tab") {
+    e.preventDefault();
 
-      triggerAutosave();
-    }
-  };
+    const start = textarea.selectionStart;
+    const end = textarea.selectionEnd;
+    const indent = " ".repeat(TAB_SIZE);
+
+    setPages(prev => {
+      const updated = [...prev];
+      const value = updated[index];
+
+      updated[index] =
+        value.slice(0, start) +
+        indent +
+        value.slice(end);
+
+      return updated;
+    });
+
+    requestAnimationFrame(() => {
+      textarea.selectionStart =
+        textarea.selectionEnd =
+        start + TAB_SIZE;
+    });
+
+    triggerAutosave();
+    return;
+  }
+
+  /* ---------- BACKSPACE MERGE ---------- */
+  if (
+    e.key === "Backspace" &&
+    index > 0 &&
+    textarea.selectionStart === 0 &&
+    textarea.selectionEnd === 0
+  ) {
+    e.preventDefault();
+
+    setPages(prev => {
+      const updated = [...prev];
+      updated[index - 1] += updated[index];
+      updated.splice(index, 1);
+      return updated;
+    });
+
+    requestAnimationFrame(() => {
+      const prev = pageRefs.current[index - 1];
+      prev.focus();
+      prev.selectionStart =
+        prev.selectionEnd =
+        prev.value.length;
+    });
+
+    triggerAutosave();
+  }
+};
+
 
   // ✏️ Title change
   const handleTitleChange = e => {
     setTitle(e.target.value);
     triggerAutosave();
   };
+
+  const logout = async () => {
+    localStorage.clear();
+    navigate('/login', { replace: true });
+    alert("Logged out successfully!");
+  }
 
   return (
     <>
@@ -155,7 +201,7 @@ function Editor({ darkMode, toggleMode }) {
             <button id="mode" onClick={toggleMode}>
               {darkMode ? "Dark Mode" : "Light Mode"}
             </button>
-            <button id="logout">Log Out</button>
+            <button id="logout" onClick={logout}>Log Out</button>
           </div>
         </div>
       )}

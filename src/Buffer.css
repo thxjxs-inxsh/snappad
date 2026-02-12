@@ -1,0 +1,33 @@
+.buffer-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(246, 246, 246, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3000;
+}
+
+body.dark .buffer-overlay {
+  background: rgba(44, 46, 62, 0.85);
+}
+
+.buffer-spinner {
+  width: 42px;
+  height: 42px;
+  border: 3px solid #2c2e3e;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+body.dark .buffer-spinner {
+  border: 3px solid #f6f6f6;
+  border-top-color: transparent;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

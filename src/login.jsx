@@ -3,16 +3,21 @@ import { useNavigate } from "react-router-dom";
 import "./login.css";
 import logo from "./assets/SnapPad.png";
 
-function Login() {
+function Login({ setBuffering }) {
+  const API_BASE = import.meta.env.VITE_API_BASE_URL;
+
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
 
+    setBuffering(true); // 🔄 START BUFFER
+
     try {
-      const res = await fetch("http://172.16.61.79:8080/api/auth/login", {
+      const res = await fetch(`${API_BASE}/api/auth/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -24,7 +29,7 @@ function Login() {
         throw new Error("Invalid credentials");
       }
 
-      // ✅ BACKEND RETURNS TOKEN HERE
+      // ✅ BACKEND RETURNS TOKEN
       const data = await res.json();
 
       // 🔐 STORE TOKEN
@@ -36,6 +41,8 @@ function Login() {
     } catch (err) {
       alert("Login failed");
       console.error(err);
+    } finally {
+      setBuffering(false); // 🔄 STOP BUFFER
     }
   };
 
@@ -49,6 +56,7 @@ function Login() {
 
         <form onSubmit={handleLogin}>
           <input
+            id="user"
             type="text"
             placeholder="Username"
             value={username}
@@ -57,6 +65,7 @@ function Login() {
           />
 
           <input
+            id="pass"
             type="password"
             placeholder="Password"
             value={password}

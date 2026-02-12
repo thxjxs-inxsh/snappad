@@ -1,64 +1,94 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import { useState, useEffect } from "react";
+
 import Login from "./login.jsx";
 import Signup from "./signup.jsx";
 import Dashboard from "./dashboard.jsx";
 import Editor from "./editor.jsx";
 import ProtectedRoute from "./ProtectedRoute.jsx";
+import StartupAnimation from "./StartupAnimation.jsx";
+
 import "./App.css";
 
 function App() {
+  /* ---------------- STARTUP ANIMATION ---------------- */
+  const [showSplash, setShowSplash] = useState(true);
+
+  /* ---------------- BUFFER (LOGIN / TRANSITIONS) ---------------- */
+  const [buffering, setBuffering] = useState(false);
+
+  /* ---------------- DARK MODE ---------------- */
   const [darkMode, setDarkMode] = useState(
     localStorage.getItem("darkMode") === "true"
   );
 
-  const toggleMode = () => {
-    setDarkMode(prev => !prev);
-  };
+  const toggleMode = () => setDarkMode(prev => !prev);
 
   useEffect(() => {
-    if (darkMode) {
-      document.body.classList.add("dark");
-    } else {
-      document.body.classList.remove("dark");
-    }
-
+    document.body.classList.toggle("dark", darkMode);
     localStorage.setItem("darkMode", darkMode);
   }, [darkMode]);
 
+  /* ---------------- STARTUP GATE ---------------- */
+  // 🚫 NOTHING ELSE is allowed to render before splash finishes
+  if (showSplash) {
+    return (
+      <StartupAnimation
+        onFinish={() => setShowSplash(false)}
+      />
+    );
+  }
+
+  /* ---------------- ROUTES ---------------- */
   return (
-    <BrowserRouter>
-      <Routes>
-        {/* 🌐 PUBLIC ROUTES */}
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
+    <Routes>
+      {/* 🌐 DEFAULT */}
+      <Route path="/" element={<Navigate to="/login" replace />} />
 
-        {/* 🔒 PROTECTED ROUTES */}
-        <Route
-          path="/dashboard"
-          element={
-            <ProtectedRoute>
-              <Dashboard
-                darkMode={darkMode}
-                toggleMode={toggleMode}
-              />
-            </ProtectedRoute>
-          }
-        />
+      {/* 🌐 PUBLIC ROUTES */}
+      <Route
+        path="/login"
+        element={
+          <Login
+            setBuffering={setBuffering}
+          />
+        }
+      />
 
-        <Route
-          path="/editor/:id"
-          element={
-            <ProtectedRoute>
-              <Editor
-                darkMode={darkMode}
-                toggleMode={toggleMode}
-              />
-            </ProtectedRoute>
-          }
-        />
-      </Routes>
-    </BrowserRouter>
+      <Route
+        path="/signup"
+        element={
+          <Signup
+            setBuffering={setBuffering}
+          />
+        }
+      />
+
+      {/* 🔒 PROTECTED ROUTES */}
+      <Route
+        path="/dashboard"
+        element={
+          <ProtectedRoute>
+            <Dashboard
+              darkMode={darkMode}
+              toggleMode={toggleMode}
+            />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/editor/:id"
+        element={
+          <ProtectedRoute>
+            <Editor
+              darkMode={darkMode}
+              toggleMode={toggleMode}
+            />
+          </ProtectedRoute>
+        }
+      />
+    </Routes>
   );
 }
 

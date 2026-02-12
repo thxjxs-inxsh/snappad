@@ -3,7 +3,8 @@ import { useNavigate } from "react-router-dom";
 import "./signup.css";
 import logo from "./assets/SnapPad.png";
 
-function Signup() {
+function Signup({ setBuffering }) {
+  const API_BASE = import.meta.env.VITE_API_BASE_URL;
   const navigate = useNavigate();
 
   const [username, setUsername] = useState("");
@@ -18,8 +19,10 @@ function Signup() {
       return;
     }
 
+    setBuffering(true); // 🔄 START BUFFER
+
     try {
-      const res = await fetch("http://172.16.61.79:8080/api/users/register", {
+      const res = await fetch(`${API_BASE}/api/users/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -33,13 +36,15 @@ function Signup() {
       }
 
       alert("User registered successfully!");
-      
+
       // ✅ redirect to login
       navigate("/login");
 
     } catch (err) {
       alert("Signup failed");
       console.error(err);
+    } finally {
+      setBuffering(false); // 🔄 STOP BUFFER
     }
   };
 

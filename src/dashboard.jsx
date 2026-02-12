@@ -6,6 +6,7 @@ import del from "./assets/delete.png";
 import { useNavigate } from "react-router-dom";
 
 function Dashboard({ darkMode, toggleMode }) {
+  const API_BASE = import.meta.env.VITE_API_BASE_URL;
   const navigate = useNavigate();
 
   const [notes, setNotes] = useState([]);
@@ -30,7 +31,7 @@ function Dashboard({ darkMode, toggleMode }) {
 
   // 📥 Load notebooks
   useEffect(() => {
-    authFetch("http://172.16.61.79:8080/api/notebooks")
+    authFetch(`${API_BASE}/api/notebooks`)
       .then(res => res.json())
       .then(data => setNotes(data))
       .catch(() => {
@@ -45,7 +46,7 @@ function Dashboard({ darkMode, toggleMode }) {
 
     try {
       const res = await authFetch(
-        "http://172.16.61.79:8080/api/notebooks",
+        `${API_BASE}/api/notebooks`,
         {
           method: "POST",
           body: JSON.stringify({ title })
@@ -70,7 +71,7 @@ function Dashboard({ darkMode, toggleMode }) {
   const handleDeleteNotebook = async () => {
     try {
       const res = await authFetch(
-        `http://172.16.61.79:8080/api/notebooks/${deleteNoteId}`,
+        `${API_BASE}/api/notebooks/${deleteNoteId}`,
         { method: "DELETE" }
       );
 
@@ -85,6 +86,12 @@ function Dashboard({ darkMode, toggleMode }) {
       alert("Failed to delete notebook");
     }
   };
+
+  const logout = async () => {
+    localStorage.clear();
+    navigate('/login', { replace: true });
+    alert("Logged out successfully!");
+  }
 
   return (
     <div id="dashboard-page">
@@ -104,7 +111,7 @@ function Dashboard({ darkMode, toggleMode }) {
             <button id="mode" onClick={toggleMode}>
               {darkMode ? "Dark Mode" : "Light Mode"}
             </button>
-            <button id="logout">Log Out</button>
+            <button id="logout" onClick={logout}>Log Out</button>
           </div>
         </div>
       )}
