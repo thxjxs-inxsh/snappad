@@ -33,7 +33,8 @@ body.dark .note-card {
     left:20px;
     cursor: pointer;
 }
-#dashboard-page #name{
+/* Default desktop: keep it fixed */
+#dashboard-page #name {
   position: fixed;
   top: 20px;
   left: 50%;
@@ -45,6 +46,22 @@ body.dark .note-card {
   pointer-events: none;
   margin-bottom: 3rem;
 }
+
+/* On smaller screens, make it scroll away */
+@media (max-width: 600px) {
+  #dashboard-page #name {
+    position: relative;  /* allows scrolling */
+    top: auto;
+    transform: none;     /* optional: center naturally */
+    margin: 1rem auto;   /* spacing above content */
+    text-align: center;
+  }
+
+  .dashboard-head {
+    margin-top: 1rem; /* adjust spacing if needed */
+  }
+}
+
 #settings{
     width:30px;
     height:30px;
