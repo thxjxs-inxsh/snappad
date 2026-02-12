@@ -43,6 +43,7 @@ body.dark .note-card {
   text-align: center;
   white-space: nowrap;
   pointer-events: none;
+  margin-bottom: 3rem;
 }
 #settings{
     width:30px;
@@ -390,10 +391,10 @@ body.dark #footer a:hover{
 }
 @media (max-width:600px){
   #dashboard,.dashboard-head{
-    width:16rem;
+    width:18rem;
   }
   .note-card{
-    width: 200px;
+    width: 220px;
   }
   #footer a{
     font-size: 12px;

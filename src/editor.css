@@ -133,4 +133,7 @@ body.dark #title{
     right:50%;
     transform: translate(50%);
   }
+  #editor{
+    margin-top:10rem;
+  }
 }
