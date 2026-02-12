@@ -375,6 +375,7 @@ body.dark #footer a:hover{
 }
 #header{
   background-color: #f6f6f6;
+  z-index: 1000;
 }
 body.dark #header{
   background-color: #2c2e3e;
