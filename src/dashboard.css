@@ -360,10 +360,11 @@ body.dark #footer a:hover{
   text-decoration: underline;
   color:#f6f6f6
 }
-.dashboard-head{
-  width: 60rem;   
-  height:3rem;
+.dashboard-head {
+  width: 60rem;
+  height: 3rem;
   margin-left: 0.5rem;
+  margin-top: 60px; 
   box-sizing: border-box;
   border-bottom: 1px solid #2c2e3e;
   display: flex;
@@ -371,6 +372,7 @@ body.dark #footer a:hover{
   justify-content: space-between;
   margin-bottom: 20px;
 }
+
 @media (max-width:1000px){
   #dashboard,.dashboard-head{
     width:35rem;
