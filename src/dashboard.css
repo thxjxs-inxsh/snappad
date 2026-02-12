@@ -373,14 +373,11 @@ body.dark #footer a:hover{
   margin-bottom: 20px;
 
 }
-#header{
-  background-color: #f6f6f6;
-  z-index: 1000;
-}
-body.dark #header{
-  background-color: #2c2e3e;
-}
 @media (max-width:1000px){
+  #dashboard-page #name{
+  position: relative;
+  margin:0;
+}
   #dashboard,.dashboard-head{
     width:35rem;
   }
