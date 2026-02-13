@@ -1,19 +1,28 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import "./editor.css";
 import logo from "./assets/SnapPad.png";
 import settings from "./assets/settings.png";
 
+// ReactQuill imports
+import ReactQuill, { Quill } from "react-quill";
+import "react-quill/dist/quill.snow.css";
+import ImageResize from "quill-image-resize-module-react";
+
+Quill.register("modules/imageResize", ImageResize);
+
 function Editor({ darkMode, toggleMode }) {
   const API_BASE = import.meta.env.VITE_API_BASE_URL;
   const { id } = useParams();
   const navigate = useNavigate();
+
   const [content, setContent] = useState("");
   const [title, setTitle] = useState("Untitled");
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [status, setStatus] = useState("Saved");
+  const [pendingSave, setPendingSave] = useState(false);
 
-  let saveTimeout = null;
+  const saveTimeout = useRef(null);
 
   const authFetch = (url, options = {}) => {
     const token = localStorage.getItem("token");
@@ -40,24 +49,27 @@ function Editor({ darkMode, toggleMode }) {
 
   // Auto-save (debounced)
   const triggerAutosave = () => {
+    setPendingSave(true);
     setStatus("Saving...");
-    if (saveTimeout) clearTimeout(saveTimeout);
 
-    saveTimeout = setTimeout(async () => {
+    if (saveTimeout.current) clearTimeout(saveTimeout.current);
+
+    saveTimeout.current = setTimeout(async () => {
       try {
         await authFetch(`${API_BASE}/api/notebooks/${id}`, {
           method: "PUT",
           body: JSON.stringify({ title, content }),
         });
-        setStatus("Auto Saved");
+        setPendingSave(false);
+        setStatus("Saved");
       } catch {
         setStatus("Save failed");
       }
     }, 800);
   };
 
-  const handleContentChange = (e) => {
-    setContent(e.target.value);
+  const handleContentChange = (value) => {
+    setContent(value);
     triggerAutosave();
   };
 
@@ -71,6 +83,32 @@ function Editor({ darkMode, toggleMode }) {
     navigate("/login", { replace: true });
     alert("Logged out successfully!");
   };
+
+  // ReactQuill modules & formats
+  const modules = {
+    toolbar: [
+      [{ header: [1, 2, 3, false] }],
+      ["bold", "italic", "underline", "strike"],
+      [{ list: "ordered" }, { list: "bullet" }],
+      ["blockquote"],
+      ["image"],
+    ],
+    imageResize: {
+      modules: ["Resize", "DisplaySize"],
+    },
+  };
+
+  const formats = [
+    "header",
+    "bold",
+    "italic",
+    "underline",
+    "strike",
+    "list",
+    "bullet",
+    "blockquote",
+    "image",
+  ];
 
   return (
     <>
@@ -90,7 +128,7 @@ function Editor({ darkMode, toggleMode }) {
       />
 
       <p id="name">SNAPPAD</p>
-      <p id="auto">{status}</p>
+      <p id="auto">{pendingSave ? "Saving..." : status}</p>
 
       <img
         src={settings}
@@ -115,13 +153,16 @@ function Editor({ darkMode, toggleMode }) {
         </div>
       )}
 
-      <textarea
-  id="editor"
-  value={content}
-  onChange={handleContentChange}
-  placeholder="Start writing..."
-/>
-
+      <div id="editor">
+        <ReactQuill
+          theme="snow"
+          value={content}
+          onChange={handleContentChange}
+          modules={modules}
+          formats={formats}
+          placeholder="Start writing..."
+        />
+      </div>
     </>
   );
 }

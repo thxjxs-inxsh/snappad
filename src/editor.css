@@ -110,6 +110,9 @@ body.dark #title{
     top:10px;
     right:100px;
 }
+body.dark #auto{
+  color:#f6f6f6
+}
 @media (max-width:1000px){
   #title{
     top:70px;
@@ -136,4 +139,91 @@ body.dark #title{
   #editor{
     margin-top:10rem;
   }
+}
+/* Make Quill content match your editor styling */
+#editor .ql-container {
+  height: 100%;
+  border: none;        /* Remove default Quill border */
+  font-family: "Times New Roman", serif;
+  font-size: 16px;
+  line-height: 1.6;
+  background: transparent; /* Use div background */
+  color: inherit;
+}
+
+#editor .ql-editor {
+  min-height: 100%;
+  padding: 40px;
+  box-sizing: border-box;
+}
+
+body.dark #editor .ql-editor {
+  color: #f6f6f6;
+}
+
+#editor .ql-toolbar {
+  border-radius: 8px 8px 8px 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center ;
+  margin-bottom: 0;
+}
+@media (max-width: 850px) {
+  #editor {
+    width: 90vw;
+    height: 70vh;
+    margin-top: 10rem;
+    padding: 20px;
+  }
+}
+
+/* ----------------- Quill Toolbar Dark Mode ----------------- */
+body.dark #editor .ql-toolbar {
+  background-color: #e0e0e0; /* same dull white as light mode */
+  border: 1px solid #ccc;    /* light border for distinction */
+  border-radius: 8px 8px 0 0;
+}
+
+/* Toolbar buttons and icons */
+body.dark #editor .ql-toolbar button,
+body.dark #editor .ql-toolbar button svg,
+body.dark #editor .ql-toolbar button svg path {
+  stroke: #000000 !important; /* black icons for contrast */
+  fill: #000000 !important;
+}
+
+/* Hovered / active buttons */
+body.dark #editor .ql-toolbar button:hover,
+body.dark #editor .ql-toolbar button.ql-active,
+body.dark #editor .ql-toolbar button:hover svg path,
+body.dark #editor .ql-toolbar button.ql-active svg path {
+  stroke: #000000 !important;
+  fill: #000000 !important;
+}
+
+/* Pickers (like fonts, headers) */
+body.dark #editor .ql-picker {
+  color: #000000 !important;
+  background-color: #e0e0e0 !important;
+  border: 1px solid #ccc !important;
+}
+
+body.dark #editor .ql-picker-options {
+  background-color: #e0e0e0 !important;
+  color: #000000 !important;
+}
+
+body.dark #editor .ql-picker-item:hover {
+  background-color: #ccc !important;
+  color: #000000 !important;
+}
+/* Fix Quill placeholder alignment */
+#editor .ql-editor.ql-blank::before {
+  left: 40px;      /* match the padding of #editor */
+  top: 40px;       /* match the padding top of #editor */
+  color: #888;     /* placeholder color */
+  font-style: italic;
+}
+body.dark #editor .ql-editor.ql-blank::before {
+  color: #f6f6f6;  /* white placeholder in dark mode */
 }
